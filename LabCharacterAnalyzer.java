@@ -3,7 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 class Character{
     int stamina;
-
+    int mana;
+    int qi;
     public int staminaLost(int minutes){
         return 0;
     }
@@ -16,9 +17,12 @@ class Character{
         return stamina - lost + restored;
     }
 }
-class Warrior extends Character{
-    public Warrior(){
+class Monk extends Character{
+    public Monk(){
         this.stamina = 120;
+        this.mana = 0;
+        this.qi = 100;
+        
     }
 
     @Override
@@ -31,8 +35,8 @@ class Warrior extends Character{
     }
 }
 
-class Archer extends Character{
-    public Archer(){
+class Hunter extends Character{
+    public Hunter(){
         this.stamina = 100;
     }
 
@@ -45,9 +49,10 @@ class Archer extends Character{
         return minutes * 3;
     }
 }
-class Wizard extends Character{
-    public Wizard(){
+class Necromancer extends Character{
+    public Necromancer(){
         this.stamina = 150;
+        this.mana = 150;
     }
     @Override
     public int staminaLost(int minutes){
