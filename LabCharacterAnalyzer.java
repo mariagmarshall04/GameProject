@@ -1,3 +1,7 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 class Character {
     int stamina;
     int mana;
