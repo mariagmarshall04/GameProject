@@ -1,97 +1,86 @@
 import java.util.Scanner;
-class Character{
+class Character {
     int stamina;
+    int mana;
+    int qi;
 
-    public int staminaLost(int minutes){
-        return 0;
+    public void specialAbility(){
     }
-    public int staminaRestored(int minutes){
-        return 0;
-    }
-    public int manaRestored
-    public int finalStamina(int lostMinutes, int restMinutes){
-        int lost = staminaLost(lostMinutes);
-        int restored = staminaRestored(restMinutes);
-        return stamina - lost + restored;
+    public void attack(){
     }
 }
-class Warrior extends Character{
-    public Warrior(){
+//public int staminaLost(int turns){
+//   return 0;
+//}
+// public int staminaRestored(int turns){
+//  return 0;
+//}
+//   public int finalStamina(int lostTurns, int restTurns){
+//int lost = staminaLost(lostTurns);
+// int restored = staminaRestored(restTurns);
+//   return stamina - lost + restored;
+//}
+//}
+class Monk extends Character {
+
+    public void furiousPunch() {
+        qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
+    }
+    public Monk() {
         this.stamina = 120;
-    }
-    @Override
-   public int staminaLost(int minutes){
-        return minutes * 4;
-    }
-    @Override
-    public int staminaRestored(int minutes){
-        return minutes * 2;
+        this.mana = 0;
+        this.qi = 100;
     }
 }
-class Archer extends Character{
-    public Archer(){
-        this.stamina = 100;
-    }
-
-    @Override
-    public int staminaLost(int minutes){
-        return minutes * 3;
-    }
-    @Override
-    public int staminaRestored(int minutes){
-        return minutes * 3;
-    }
-}
-class Wizard extends Character{
-    public Wizard(){
+class Hunter extends Character {
+    public Hunter(){
         this.stamina = 150;
+        this.mana = 40;
+        this.qi = 0;
     }
     @Override
-    public int staminaLost(int minutes){
-        int lost = minutes * 2;
-        if (minutes % 2 == 1){
-            lost += 2;
-        }
-        return lost;
-    }
-    @Override
-    public int staminaRestored(int minutes){
-        return minutes * 4  ;
+    public void specialAbility() {
+        mana -= 4;
+        stamina -= 20;  //sprays 4 arrows simultaneously
     }
 }
-public class LabCharacterAnalyzer {
+class Necromancer extends Character{
+    public Necromancer() {
+        this.stamina = 40;
+        this.mana = 150;  //evilMana
+    }
+    @Override
+    public void specialAbility() {
+        mana -= 75;    //summons 3 zombies
+    }
+}
+public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner input = new  Scanner(System.in);
 
-        System.out.println("----Character Menu----\n1.Warrior\n2.Archer\n3.Wizard");
-        System.out.println("Please press 1-3 to choose which class you would like to be.");
+        System.out.println("What would you like your class to be?(1-3)");
+        System.out.println("========Classes=========\n1. Monk\n2. Hunter\n3. Necromancer");
 
         int choice = input.nextInt();
         while (choice < 1 || choice > 3) {
             System.out.println("Invalid choice.");
             choice = input.nextInt();
         }
-
-        System.out.println("How many minutes did you character train?");
-        int minutes = input.nextInt();
-
-        System.out.println("How many minutes did they rest?");
-        int rest =  input.nextInt();
-
-        Character c = null;
-
+        Character player = null;
         switch (choice){
             case 1:
-                c = new Warrior();
+                player = new Monk();
                 break;
             case 2:
-                c = new Archer();
+                player = new Hunter();
                 break;
             case 3:
-                c = new Wizard();
+                player = new Necromancer();
                 break;
+                default:
+                    System.out.println("Invalid choice.");
         }
-        int result = c.finalStamina(minutes, rest);
-        System.out.println("Your final stamina is: " + result);
+        player.specialAbility();
+
     }
 }
