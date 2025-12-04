@@ -5,15 +5,15 @@ class Character{
     int stamina;
     int mana;
     int qi;
-    public int staminaLost(int minutes){
+    public int staminaLost(int turns){
         return 0;
     }
-    public int staminaRestored(int minutes){
+    public int staminaRestored(int turns){
         return 0;
     }
-    public int finalStamina(int lostMinutes, int restMinutes){
-        int lost = staminaLost(lostMinutes);
-        int restored = staminaRestored(restMinutes);
+    public int finalStamina(int lostTurns, int restTurns){
+        int lost = staminaLost(lostTurns);
+        int restored = staminaRestored(restTurns);
         return stamina - lost + restored;
     }
 }
@@ -22,49 +22,54 @@ class Monk extends Character{
         this.stamina = 120;
         this.mana = 0;
         this.qi = 100;
-        
-    }
-
-    @Override
-   public int staminaLost(int minutes){
-        return minutes * 4;
+    public void furiousPunch(){   
+        qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
     }
     @Override
-    public int staminaRestored(int minutes){
-        return minutes * 2;
+   public int staminaLost(int turns){
+        return turns * 2;
+    }
+    @Override
+    public int staminaRestored(int turns){
+        return turns * 3;
     }
 }
 
 class Hunter extends Character{
     public Hunter(){
-        this.stamina = 100;
+        this.stamina = 150;
+        int arrowQuiver = 20;
+        public void arrowVolley(){
+            arrowVolley -= 4;   //sprays 4 arrows simultaneously
     }
 
     @Override
-    public int staminaLost(int minutes){
-        return minutes * 3;
+    public int staminaLost(int turns){
+        return turns * 3;
     }
     @Override
-    public int staminaRestored(int minutes){
-        return minutes * 3;
+    public int staminaRestored(int turns){
+        return turns * 3;
     }
 }
 class Necromancer extends Character{
     public Necromancer(){
         this.stamina = 150;
-        this.mana = 150;
+        this.mana = 150;  //evilMana
+        public void summonUndead(){
+        mana -= 75; //summons 3 zombies
     }
     @Override
-    public int staminaLost(int minutes){
-        int lost = minutes * 2;
-        if (minutes % 2 == 1){
+    public int staminaLost(int turns){
+        int lost = turns * 2;
+        if (turns % 2 == 1){
             lost += 2;
         }
         return lost;
     }
     @Override
-    public int staminaRestored(int minutes){
-        return minutes * 4;
+    public int staminaRestored(int turns){
+        return turns * 4;
     }
 }
 public class LabCharacterAnalyzer {
@@ -80,10 +85,10 @@ public class LabCharacterAnalyzer {
             choice = input.nextInt();
         }
 
-        System.out.println("How many minutes did you character train?");
-        int minutes = input.nextInt();
+        System.out.println("How many turns of combat was your character in?");
+        int turns = input.nextInt();
 
-        System.out.println("How many minutes did they rest?");
+        System.out.println("How many turns did they rest?");
         int rest =  input.nextInt();
 
         Character c = null;
@@ -99,7 +104,7 @@ public class LabCharacterAnalyzer {
                 c = new Wizard();
                 break;
         }
-        int result = c.finalStamina(minutes, rest);
+        int result = c.finalStamina(turns, rest);
         System.out.println("Your final stamina is: " + result);
     }
 }
