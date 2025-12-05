@@ -23,13 +23,22 @@ class Character {
 //}
 class Monk extends Character {
 
-    public void furiousPunch() {
-        qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
-    }
     public Monk() {
         this.stamina = 120;
         this.mana = 0;
         this.qi = 100;
+    }
+    @Override
+    public void attack(){
+        qi -= 3;
+        stamina -= 5;
+        System.out.println("The Monk strikes!");
+    }
+    @Override
+    public void specialAbility() {
+        qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
+        stamina -= 25;
+        System.out.println("The Monk uses Furious Punch!");
     }
 }
 class Hunter extends Character {
@@ -39,9 +48,16 @@ class Hunter extends Character {
         this.qi = 0;
     }
     @Override
+    public void attack(){
+        stamina -= 8;
+        mana -= 2;
+        System.out.println("The Hunter shoots an arrow!");
+    }
+    @Override
     public void specialAbility() {
         mana -= 4;
         stamina -= 20;  //sprays 4 arrows simultaneously
+        System.out.println("The Hunter uses Arrow Volley!");
     }
 }
 class Necromancer extends Character{
@@ -50,8 +66,15 @@ class Necromancer extends Character{
         this.mana = 150;  //evilMana
     }
     @Override
+    public void attack(){
+        mana -= 3;
+        stamina -= 5;
+        System.out.println("The Necromancer raises his staff and attacks!");
+    }
+    @Override
     public void specialAbility() {
         mana -= 75;    //summons 3 zombies
+        System.out.println("The Necromancer summons three zombified minions!");
     }
 }
 public class Main {
@@ -80,7 +103,9 @@ public class Main {
                 default:
                     System.out.println("Invalid choice.");
         }
+        player.attack();
         player.specialAbility();
+        System.out.println("Stamina: " + player.stamina + "\n" + "Mana: " + player.mana + "\n" + "Qi: " + player.qi);
 
     }
 }
