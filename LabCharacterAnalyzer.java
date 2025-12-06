@@ -103,11 +103,14 @@ class Necromancer extends Character{
 
 class BalduringGateMain extends JFrame {
 
+    private Character player;
+
     BalduringGateMain() {
         setTitle("Balduring Gate");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 600);
         setLocationRelativeTo(null); //center screen
+
 
         JPanel mainPanel = new JPanel();
         JButton selectClassesBtn = new JButton("Select Class");
@@ -137,19 +140,21 @@ class BalduringGateMain extends JFrame {
         panel.add(monkBtn);
         panel.add(huntBtn);
         panel.add(necroBtn);
-        AtomicReference<Character> player = new AtomicReference<>();
+
         monkBtn.addActionListener(e-> {
-            player.set(new Monk());
+            player = new Monk();
             classFrame.dispose();
             openNextStepWindow("Monk");
         });
 
         huntBtn.addActionListener(e-> {
+            player = new Hunter();
             classFrame.dispose();
             openNextStepWindow("Hunter");
         });
 
         necroBtn.addActionListener(e-> {
+            player = new Necromancer();
             classFrame.dispose();
             openNextStepWindow("Necromancer");
         });
@@ -167,12 +172,15 @@ class BalduringGateMain extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(6, 1, 10, 10));
 
+        String className = player.getClass().getSimpleName();
+
         JLabel title = new JLabel("You are a "+ selectedClass , SwingConstants.CENTER);
-        JLabel stats = new JLabel("Stamina: "+);
+        JLabel stats = new JLabel("Stamina: " + player.stamina);
         panel.add(title);
         panel.add(stats);
         abilityFrame.add(panel);
         abilityFrame.add(title);
+        abilityFrame.add(stats);
         abilityFrame.setVisible(true);
     }
 }
