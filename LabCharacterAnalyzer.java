@@ -1,7 +1,9 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileWriter;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 class Character {
     int stamina;
@@ -95,8 +97,90 @@ class Necromancer extends Character{
         System.out.println("The Necromancer uses Summon and three zombified ghouls emerge from the ground...");
     }
 }
+
+
+
+
+class BalduringGateMain extends JFrame {
+
+    BalduringGateMain() {
+        setTitle("Balduring Gate");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 600);
+        setLocationRelativeTo(null); //center screen
+
+        JPanel mainPanel = new JPanel();
+        JButton selectClassesBtn = new JButton("Select Class");
+        selectClassesBtn.setFont(new Font("Arial", Font.BOLD, 20));
+        selectClassesBtn.addActionListener(_ -> openClassSelectionWindow());
+
+        mainPanel.add(selectClassesBtn);
+        add(mainPanel);
+
+        setVisible(true);
+    }
+
+    void openClassSelectionWindow() {
+        JFrame classFrame = new JFrame("Choose Your Class");
+        classFrame.setSize(400, 600);
+        classFrame.setLocationRelativeTo(this); //centered over main window
+        classFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 1, 10, 10));  //3 rows
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        JButton monkBtn = new JButton("Monk");
+        JButton huntBtn = new JButton("Hunter");
+        JButton necroBtn = new JButton("Necromancer");
+
+        panel.add(monkBtn);
+        panel.add(huntBtn);
+        panel.add(necroBtn);
+        AtomicReference<Character> player = new AtomicReference<>();
+        monkBtn.addActionListener(e-> {
+            player.set(new Monk());
+            classFrame.dispose();
+            openNextStepWindow("Monk");
+        });
+
+        huntBtn.addActionListener(e-> {
+            classFrame.dispose();
+            openNextStepWindow("Hunter");
+        });
+
+        necroBtn.addActionListener(e-> {
+            classFrame.dispose();
+            openNextStepWindow("Necromancer");
+        });
+
+        classFrame.add(panel);
+        classFrame.setVisible(true); //New window appears
+    }
+
+    void openNextStepWindow(String selectedClass){
+        JFrame abilityFrame = new JFrame("Character Creation");
+        abilityFrame.setSize(400,600);
+        abilityFrame.setLocationRelativeTo(null);
+        abilityFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 1, 10, 10));
+
+        JLabel title = new JLabel("You are a "+ selectedClass , SwingConstants.CENTER);
+        JLabel stats = new JLabel("Stamina: "+);
+        panel.add(title);
+        panel.add(stats);
+        abilityFrame.add(panel);
+        abilityFrame.add(title);
+        abilityFrame.setVisible(true);
+    }
+}
+
+
 public class Main {
     public static void main(String[] args) throws IOException{
+        SwingUtilities.invokeLater(BalduringGateMain::new);
         Scanner input = new  Scanner(System.in);
 
         System.out.println("What would you like your class to be?(1-3)");
