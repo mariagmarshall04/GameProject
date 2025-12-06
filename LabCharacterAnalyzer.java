@@ -1,240 +1,226 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileWriter;
-import java.util.Scanner;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
 
 class Character {
     int stamina;
     int mana;
     int qi;
-
-    public void character(){
-
-    }
-    public void specialAbility(){
-    }
-    public void attack(){
-    }
+                                                                        //.append is the logArea version of .println  also goes to bottom of log area
+    public void character() {}
+    public void attack() {}
+    public void specialAbility() {}
+    //all overridden
 }
-//public int staminaLost(int turns){
-//   return 0;
-//}
-// public int staminaRestored(int turns){
-//  return 0;
-//}
-//   public int finalStamina(int lostTurns, int restTurns){
-//int lost = staminaLost(lostTurns);
-// int restored = staminaRestored(restTurns);
-//   return stamina - lost + restored;
-//}
-//}
+
 class Monk extends Character {
     public Monk() {
         this.stamina = 120;
         this.mana = 0;
         this.qi = 100;
     }
-    @Override
-    public void character() {
-        System.out.println("You've made a Monk!");
+    @Override public void character() { System.out.println("You've made a Monk!"); }
+    @Override public void attack() {
+        qi -= 3; stamina -= 5;
+        BalduringGateMain.staticLogArea.append("The Monk strikes with the palm of his hand!\n");  // \n creates a new line
+
     }
-    @Override
-    public void attack(){
-        qi -= 3;
-        stamina -= 5;
-        System.out.println("The Monk strikes with the palm of his hand!");
-    }
-    @Override
-    public void specialAbility() {
-        qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
-        stamina -= 25;
-        System.out.println("The Monk pummels their target with Furious Punch!");
+    @Override public void specialAbility() {
+        qi -= 25; stamina -= 25;
+        BalduringGateMain.staticLogArea.append("The Monk pummels their target with Furious Punch!\n");
     }
 }
+
 class Hunter extends Character {
-    public Hunter(){
+    public Hunter() {
         this.stamina = 150;
         this.mana = 40;
         this.qi = 0;
     }
-    @Override
-    public void character() {
-        System.out.println("You've made a Hunter!");
+    @Override public void character() { System.out.println("You've made a Hunter!"); }
+    @Override public void attack() {
+        stamina -= 8; mana -= 2;
+        BalduringGateMain.staticLogArea.append("The Hunter shoots an arrow!\n");
     }
-    @Override
-    public void attack(){
-        stamina -= 8;
-        mana -= 2;
-        System.out.println("The Hunter shoots an arrow!");
-    }
-    @Override
-    public void specialAbility() {
-        mana -= 4;
-        stamina -= 20;  //sprays 4 arrows simultaneously
-        System.out.println("The Hunter pulls back their bow and shoots a volley of arrows!");
+    @Override public void specialAbility() {
+        mana -= 4; stamina -= 20;
+        BalduringGateMain.staticLogArea.append("The Hunter pulls back their bow and shoots a volley of arrows!\n");
     }
 }
-class Necromancer extends Character{
+
+class Necromancer extends Character {
     public Necromancer() {
         this.stamina = 40;
-        this.mana = 150;  //evilMana
+        this.mana = 150;
+        this.qi = 0;
     }
-    @Override
-    public void character() {
-        System.out.println("You've made a Necromancer!");
+    @Override public void character() { System.out.println("You've made a Necromancer!"); }
+    @Override public void attack() {
+        mana -= 3; stamina -= 5;
+        BalduringGateMain.staticLogArea.append("The Necromancer raises their staff and shoots a ball of magic!\n");
     }
-    @Override
-    public void attack(){
-        mana -= 3;
-        stamina -= 5;
-        System.out.println("The Necromancer raises their staff and shoots a ball of magic!");
-    }
-    @Override
-    public void specialAbility() {
-        mana -= 75;    //summons 3 zombies
-        System.out.println("The Necromancer uses Summon and three zombified ghouls emerge from the ground...");
+    @Override public void specialAbility() {
+        mana -= 75;
+        BalduringGateMain.staticLogArea.append("The Necromancer uses Summon and three zombified ghouls ATTACK from the ground!!!\n");
     }
 }
 
-
-
-
-class BalduringGateMain extends JFrame {
+public class BalduringGateMain extends JFrame {
 
     private Character player;
-
+    private JLabel staminaLabel, manaLabel, qiLabel;   // updated live
+    private JTextArea logArea;                         // shows attack messages
+    public static JTextArea staticLogArea;             //uses GUI instead of console to show attacks
     BalduringGateMain() {
         setTitle("Balduring Gate");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 600);
-        setLocationRelativeTo(null); //center screen
+        setSize(400, 200);
+        setLocationRelativeTo(null);  //center screen
+
+        JPanel mainPanel = new JPanel(new GridBagLayout());   //ensures that button is centered
+        JButton selectClassesBtn = new JButton("SELECT CLASS");
+        selectClassesBtn.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 20));
 
 
-        JPanel mainPanel = new JPanel();
-        JButton selectClassesBtn = new JButton("Select Class");
-        selectClassesBtn.setFont(new Font("Arial", Font.BOLD, 20));
-        selectClassesBtn.addActionListener(_ -> openClassSelectionWindow());
+        selectClassesBtn.addActionListener(e ->
+            openClassSelectionWindow());
 
-        mainPanel.add(selectClassesBtn);
+        mainPanel.add(selectClassesBtn);    //expression in JPanel () auto centers button
         add(mainPanel);
-
         setVisible(true);
     }
 
     void openClassSelectionWindow() {
         JFrame classFrame = new JFrame("Choose Your Class");
         classFrame.setSize(400, 600);
-        classFrame.setLocationRelativeTo(this); //centered over main window
+        classFrame.setLocationRelativeTo(this);
         classFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 10, 10));  //3 rows
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        panel.setLayout(new GridLayout(3, 1, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
 
         JButton monkBtn = new JButton("Monk");
+        monkBtn.setFont(new Font("Impact", Font.BOLD, 20));
         JButton huntBtn = new JButton("Hunter");
+        huntBtn.setFont(new Font("Forte", Font.BOLD, 20));
         JButton necroBtn = new JButton("Necromancer");
+        necroBtn.setFont(new Font("Jokerman", Font.BOLD, 20));
+
+        monkBtn.addActionListener(e -> {
+        player = new Monk();
+        classFrame.dispose();
+        fightWindow("Monk");});
+
+        huntBtn.addActionListener(e -> {
+        player = new Hunter();
+        classFrame.dispose();
+        fightWindow("Hunter");});
+
+        necroBtn.addActionListener(e-> {
+        player = new Necromancer();
+        classFrame.dispose();
+        fightWindow("Necromancer");});
+
 
         panel.add(monkBtn);
         panel.add(huntBtn);
         panel.add(necroBtn);
 
-        monkBtn.addActionListener(e-> {
-            player = new Monk();
-            classFrame.dispose();
-            openNextStepWindow("Monk");
-        });
-
-        huntBtn.addActionListener(e-> {
-            player = new Hunter();
-            classFrame.dispose();
-            openNextStepWindow("Hunter");
-        });
-
-        necroBtn.addActionListener(e-> {
-            player = new Necromancer();
-            classFrame.dispose();
-            openNextStepWindow("Necromancer");
-        });
-
         classFrame.add(panel);
-        classFrame.setVisible(true); //New window appears
+        classFrame.setVisible(true);
     }
 
-    void openNextStepWindow(String selectedClass){
-        JFrame abilityFrame = new JFrame("Character Creation");
-        abilityFrame.setSize(400,600);
-        abilityFrame.setLocationRelativeTo(null);
-        abilityFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    // replaces openNextStepWindow
+    void fightWindow(String selectedClass) {
+        JFrame fightFrame = new JFrame("Training Fight - " + selectedClass);
+        fightFrame.setSize(600, 700);
+        fightFrame.setLocationRelativeTo(null);
+        fightFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 1, 10, 10));
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        String className = player.getClass().getSimpleName();
+        // Title
+        JLabel title = new JLabel("You are a " + selectedClass + " – A shadowy figure appears!", SwingConstants.CENTER);
+        title.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
-        JLabel title = new JLabel("You are a "+ selectedClass , SwingConstants.CENTER);
-        JLabel stats = new JLabel("Stamina: " + player.stamina);
-        panel.add(title);
-        panel.add(stats);
-        abilityFrame.add(panel);
-        abilityFrame.add(title);
-        abilityFrame.add(stats);
-        abilityFrame.setVisible(true);
+
+        // Stats
+        JPanel statsPanel = new JPanel(new GridLayout(3, 1, 10, 20));
+        statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
+//need more understanding of stats area fr fr
+        staminaLabel = new JLabel("Stamina: "+ player.stamina);
+        manaLabel = new JLabel("Mana: "+ player.mana);
+        qiLabel = new JLabel("Qi: "+ player.qi);
+
+        statsPanel.add(staminaLabel);
+        statsPanel.add(manaLabel);
+        statsPanel.add(qiLabel);
+        mainPanel.add(statsPanel, BorderLayout.WEST);
+
+        // Combat log
+        logArea = new JTextArea(20, 40);
+        staticLogArea = logArea;  //gives all classes access to area
+        logArea.setEditable(false);
+        logArea.setFont(new Font("Times New Roman", Font.BOLD, 14));
+        mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);  //makes the log area real
+            //Need more understanding of LogArea fr fr
+        // Action buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 20));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));  //emptyborder creates a buffer zone between objects
+
+        JButton attackBtn = new JButton("Attack");
+        JButton specialBtn = new JButton("Special Ability");
+        JButton saveExitBtn = new JButton("Save & Exit");
+
+        attackBtn.addActionListener(e -> {
+            player.attack();
+            updateStatsAndLog();
+        });
+        specialBtn.addActionListener(e -> {
+            player.specialAbility();
+            updateStatsAndLog();
+        });
+        saveExitBtn.addActionListener(e -> {
+            saveToFile();
+            fightFrame.dispose();            //closes fight screen
+        });
+
+        buttonPanel.add(attackBtn);
+        buttonPanel.add(specialBtn);
+        buttonPanel.add(saveExitBtn);
+
+        mainPanel.add(buttonPanel, BorderLayout.EAST);
+
+        fightFrame.add(mainPanel);
+        fightFrame.setVisible(true);
+
+        log("You are a " + selectedClass + "!");
+        log("A shadowy figure appears before you!\n");
     }
-}
 
+    private void updateStatsAndLog() {
+        staminaLabel.setText("Stamina: "+ player.stamina);
+        manaLabel.setText("Mana: "+ player.mana);
+        qiLabel.setText("Qi: "+ player.qi);
+    }
 
-public class Main {
-    public static void main(String[] args) throws IOException{
+    private void log(String s) {                   //helper code that adds \n to >log whenver called. Adds lines to bottom (append)of log area
+        logArea.append(s + "\n");
+    }
+
+    private void saveToFile() {
+        try (FileWriter fw = new FileWriter("CharacterStats.txt")) {
+            fw.write("Stamina: "+player.stamina + "\n");
+            fw.write("Mana: "+player.mana + "\n");
+            fw.write("Qi: "+player.qi + "\n");
+        } catch (IOException ignored){
+            //end user won't receive a message of failure. Whole thing just closes.
+        }
+    }
+
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(BalduringGateMain::new);
-        Scanner input = new  Scanner(System.in);
-
-        System.out.println("What would you like your class to be?(1-3)");
-        System.out.println("========Classes=========\n1. Monk\n2. Hunter\n3. Necromancer");
-
-        int choice = input.nextInt();
-        input.nextLine();
-        while (choice < 1 || choice > 3) {
-            System.out.println("Invalid choice.");
-            choice = input.nextInt();
-        }
-        Character player = null;
-        switch (choice){
-            case 1:
-                player = new Monk();
-                break;
-            case 2:
-                player = new Hunter();
-                break;
-            case 3:
-                player = new Necromancer();
-                break;
-            default:
-                System.out.println("Invalid choice.");
-        }
-        player.character();
-        System.out.println("Welcome to your first fight! Here you will practice you attack or your special ability.\nAnd at the end you will be given the opportunity to rest for a turn or long rest");
-        System.out.println("~~~A shadowy figure appears before you~~~");
-        System.out.println("What type of attack would you like to do first? Attack or Special Ability?");
-
-        String type = input.nextLine().trim();
-
-        while(!type.equalsIgnoreCase("Done")) {
-            if (type.equalsIgnoreCase("attack")) {
-                player.attack();
-            } else if(type.equalsIgnoreCase("special ability")) {
-                player.specialAbility();
-            } else{
-                System.out.println("Invalid choice.");
-            }
-            System.out.println("Would you like to use another attack? If not type done.");
-            type = input.nextLine().trim();
-        }
-        System.out.println("Stamina: " + player.stamina + "\n" + "Mana: " + player.mana + "\n" + "Qi: " + player.qi);
-        FileWriter file = new FileWriter("CharacterStats.txt");
-        file.write(player.stamina + "\n" + player.mana + "\n" + player.qi);
-        file.close();
     }
 }
