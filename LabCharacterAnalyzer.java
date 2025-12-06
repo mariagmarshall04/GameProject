@@ -1,9 +1,16 @@
+import java.io.FileWriter;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 class Character {
     int stamina;
     int mana;
     int qi;
 
+    public void character(){
+
+    }
     public void specialAbility(){
     }
     public void attack(){
@@ -22,23 +29,26 @@ class Character {
 //}
 //}
 class Monk extends Character {
-
     public Monk() {
         this.stamina = 120;
         this.mana = 0;
         this.qi = 100;
     }
     @Override
+    public void character() {
+        System.out.println("You've made a Monk!");
+    }
+    @Override
     public void attack(){
         qi -= 3;
         stamina -= 5;
-        System.out.println("The Monk strikes!");
+        System.out.println("The Monk strikes with the palm of his hand!");
     }
     @Override
     public void specialAbility() {
         qi -= 25; //calculating the amound of ki lost from using "furiousPunch"
         stamina -= 25;
-        System.out.println("The Monk uses Furious Punch!");
+        System.out.println("The Monk pummels their target with Furious Punch!");
     }
 }
 class Hunter extends Character {
@@ -46,6 +56,10 @@ class Hunter extends Character {
         this.stamina = 150;
         this.mana = 40;
         this.qi = 0;
+    }
+    @Override
+    public void character() {
+        System.out.println("You've made a Hunter!");
     }
     @Override
     public void attack(){
@@ -57,7 +71,7 @@ class Hunter extends Character {
     public void specialAbility() {
         mana -= 4;
         stamina -= 20;  //sprays 4 arrows simultaneously
-        System.out.println("The Hunter uses Arrow Volley!");
+        System.out.println("The Hunter pulls back their bow and shoots a volley of arrows!");
     }
 }
 class Necromancer extends Character{
@@ -66,25 +80,30 @@ class Necromancer extends Character{
         this.mana = 150;  //evilMana
     }
     @Override
+    public void character() {
+        System.out.println("You've made a Necromancer!");
+    }
+    @Override
     public void attack(){
         mana -= 3;
         stamina -= 5;
-        System.out.println("The Necromancer raises his staff and attacks!");
+        System.out.println("The Necromancer raises their staff and shoots a ball of magic!");
     }
     @Override
     public void specialAbility() {
         mana -= 75;    //summons 3 zombies
-        System.out.println("The Necromancer summons three zombified minions!");
+        System.out.println("The Necromancer uses Summon and three zombified ghouls emerge from the ground...");
     }
 }
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         Scanner input = new  Scanner(System.in);
 
         System.out.println("What would you like your class to be?(1-3)");
         System.out.println("========Classes=========\n1. Monk\n2. Hunter\n3. Necromancer");
 
         int choice = input.nextInt();
+        input.nextLine();
         while (choice < 1 || choice > 3) {
             System.out.println("Invalid choice.");
             choice = input.nextInt();
@@ -100,12 +119,30 @@ public class Main {
             case 3:
                 player = new Necromancer();
                 break;
-                default:
-                    System.out.println("Invalid choice.");
+            default:
+                System.out.println("Invalid choice.");
         }
-        player.attack();
-        player.specialAbility();
-        System.out.println("Stamina: " + player.stamina + "\n" + "Mana: " + player.mana + "\n" + "Qi: " + player.qi);
+        player.character();
+        System.out.println("Welcome to your first fight! Here you will practice you attack or your special ability.\nAnd at the end you will be given the opportunity to rest for a turn or long rest");
+        System.out.println("~~~A shadowy figure appears before you~~~");
+        System.out.println("What type of attack would you like to do first? Attack or Special Ability?");
 
+        String type = input.nextLine().trim();
+
+        while(!type.equalsIgnoreCase("Done")) {
+            if (type.equalsIgnoreCase("attack")) {
+                player.attack();
+            } else if(type.equalsIgnoreCase("special ability")) {
+                player.specialAbility();
+            } else{
+                System.out.println("Invalid choice.");
+            }
+            System.out.println("Would you like to use another attack? If not type done.");
+            type = input.nextLine().trim();
+        }
+        System.out.println("Stamina: " + player.stamina + "\n" + "Mana: " + player.mana + "\n" + "Qi: " + player.qi);
+        FileWriter file = new FileWriter("CharacterStats.txt");
+        file.write(player.stamina + "\n" + player.mana + "\n" + player.qi);
+        file.close();
     }
 }
