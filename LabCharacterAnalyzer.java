@@ -7,7 +7,7 @@ class Character {
     int stamina;
     int mana;
     int qi;
-    //.append is the logArea version of .println  also goes to bottom of log area
+
     public void character() {
         System.out.println("A character has been created!");
     }
@@ -26,15 +26,18 @@ class Monk extends Character {
         mana = 0;
         qi = 100;
     }
-    @Override public void character() { System.out.println("You've made a Monk!"); }
-    @Override public void attack() {
-        qi -= 3; stamina -= 5;
-        BalduringGateMain.staticLogArea.append("The Monk strikes with the palm of his hand!\n");  // \n creates a new line
-
+    @Override
+        public void character() { System.out.println("You've made a Monk!"); }
+    @Override
+        public void attack() {
+            qi -= 3; stamina -= 5;
+            BalduringGateMain.staticLogArea.append("The Monk strikes with the palm of his hand!\n");  // \n creates a new line
+                    //.append is the logArea version of .println  also goes to bottom of log area
     }
-    @Override public void specialAbility() {
-        qi -= 25; stamina -= 25;
-        BalduringGateMain.staticLogArea.append("The Monk pummels their target with Furious Punch!\n");
+    @Override
+        public void specialAbility() {
+            qi -= 25; stamina -= 25;
+            BalduringGateMain.staticLogArea.append("The Monk pummels their target with Furious Punch!\n");
     }
 }
 
@@ -44,14 +47,18 @@ class Hunter extends Character {
         mana = 40;
         qi = 0;
     }
-    @Override public void character() { System.out.println("You've made a Hunter!"); }
-    @Override public void attack() {
-        stamina -= 8; mana -= 2;
-        BalduringGateMain.staticLogArea.append("The Hunter shoots an arrow!\n");
+    @Override
+        public void character() {
+            System.out.println("You've made a Hunter!"); }
+    @Override
+        public void attack() {
+            stamina -= 8; mana -= 2;
+            BalduringGateMain.staticLogArea.append("The Hunter shoots an arrow!\n");
     }
-    @Override public void specialAbility() {
-        mana -= 4; stamina -= 20;
-        BalduringGateMain.staticLogArea.append("The Hunter pulls back their bow and shoots a volley of arrows!\n");
+    @Override
+        public void specialAbility() {
+            mana -= 4; stamina -= 20;
+            BalduringGateMain.staticLogArea.append("The Hunter pulls back their bow and shoots a volley of arrows!\n");
     }
 }
 
@@ -61,23 +68,27 @@ class Necromancer extends Character {
         mana = 150;
         qi = 0;
     }
-    @Override public void character() { System.out.println("You've made a Necromancer!"); }
-    @Override public void attack() {
-        mana -= 3; stamina -= 5;
-        BalduringGateMain.staticLogArea.append("The Necromancer raises their staff and shoots a ball of magic!\n");
+    @Override
+        public void character() {
+            System.out.println("You've made a Necromancer!"); }
+    @Override
+        public void attack() {
+            mana -= 3; stamina -= 5;
+            BalduringGateMain.staticLogArea.append("The Necromancer raises their staff and shoots a ball of magic!\n");
     }
-    @Override public void specialAbility() {
-        mana -= 75;
-        BalduringGateMain.staticLogArea.append("The Necromancer uses Summon and three zombified ghouls ATTACK from the ground!!!\n");
+    @Override
+        public void specialAbility() {
+            mana -= 75;
+            BalduringGateMain.staticLogArea.append("The Necromancer uses Summon and three zombified ghouls ATTACK from the ground!!!\n");
     }
 }
 
-public class BalduringGateMain extends JFrame {
+public class BalduringGateMain extends JFrame {           //class becomes frame
 
-    private Character player;
+    private Character player;                          // variable player can hold any character (Private so only code inside class can interact with it)
     private JLabel staminaLabel, manaLabel, qiLabel;   // updated live
     private JTextArea logArea;                         // shows attack messages
-    public static JTextArea staticLogArea;             //uses GUI instead of console to show attacks
+    public static JTextArea staticLogArea;             //uses GUI instead of console to show attacks (public and static so all relevant code can reach the Text area)
     BalduringGateMain() {
         setTitle("Balduring Gate");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,10 +116,10 @@ public class BalduringGateMain extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects  10 pixels gap
 
         JButton monkBtn = new JButton("Monk");
-        monkBtn.setFont(new Font("Impact", Font.BOLD, 20));  //formatting for button
+        monkBtn.setFont(new Font("Impact", Font.BOLD, 20));
         JButton huntBtn = new JButton("Hunter");
         huntBtn.setFont(new Font("Forte", Font.BOLD, 20));
         JButton necroBtn = new JButton("Necromancer");
@@ -163,11 +174,11 @@ public class BalduringGateMain extends JFrame {
         statsPanel.add(staminaLabel);
         statsPanel.add(manaLabel);
         statsPanel.add(qiLabel);
-       mainPanel.add(statsPanel, BorderLayout.WEST);  //these components show up the LEFT  side of panel
+        mainPanel.add(statsPanel, BorderLayout.WEST);  //these components show up the LEFT  side of panel
 
         // Combat log
         logArea = new JTextArea(20, 40);
-        staticLogArea = logArea;  //gives all classes access to area
+        staticLogArea = logArea;  //gives all classes access to area by making global staticLog = logArea in window
         logArea.setEditable(false);
         logArea.setFont(new Font("Times New Roman", Font.BOLD, 14));
         mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);  //Log area is where messages will be displayed. This puts it in the center and allows for scrolling vert/horz
