@@ -7,7 +7,7 @@ class Character {
     int stamina;
     int mana;
     int qi;
-                                                                        //.append is the logArea version of .println  also goes to bottom of log area
+    //.append is the logArea version of .println  also goes to bottom of log area
     public void character() {}
     public void attack() {}
     public void specialAbility() {}
@@ -84,7 +84,7 @@ public class BalduringGateMain extends JFrame {
 
 
         selectClassesBtn.addActionListener(e ->
-            openClassSelectionWindow());
+                openClassSelectionWindow());
 
         mainPanel.add(selectClassesBtn);    //expression in JPanel () auto centers button
         add(mainPanel);
@@ -109,19 +109,19 @@ public class BalduringGateMain extends JFrame {
         necroBtn.setFont(new Font("Jokerman", Font.BOLD, 20));
 
         monkBtn.addActionListener(e -> {
-        player = new Monk();
-        classFrame.dispose();
-        fightWindow("Monk");});
+            player = new Monk();
+            classFrame.dispose();
+            fightWindow("Monk");});
 
         huntBtn.addActionListener(e -> {
-        player = new Hunter();
-        classFrame.dispose();
-        fightWindow("Hunter");});
+            player = new Hunter();
+            classFrame.dispose();
+            fightWindow("Hunter");});
 
         necroBtn.addActionListener(e-> {
-        player = new Necromancer();
-        classFrame.dispose();
-        fightWindow("Necromancer");});
+            player = new Necromancer();
+            classFrame.dispose();
+            fightWindow("Necromancer");});
 
 
         panel.add(monkBtn);
@@ -149,7 +149,7 @@ public class BalduringGateMain extends JFrame {
         // Stats
         JPanel statsPanel = new JPanel(new GridLayout(3, 1, 10, 20));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
-//need more understanding of stats area fr fr
+
         staminaLabel = new JLabel("Stamina: "+ player.stamina);
         manaLabel = new JLabel("Mana: "+ player.mana);
         qiLabel = new JLabel("Qi: "+ player.qi);
@@ -165,7 +165,7 @@ public class BalduringGateMain extends JFrame {
         logArea.setEditable(false);
         logArea.setFont(new Font("Times New Roman", Font.BOLD, 14));
         mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);  //makes the log area real
-            //Need more understanding of LogArea fr fr
+
         // Action buttons
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 20));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));  //emptyborder creates a buffer zone between objects
