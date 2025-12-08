@@ -84,7 +84,7 @@ class Necromancer extends Character {
     }
 }
 
-public class BalduringGateMain extends JFrame {           //class becomes frame
+public class BalduringGateMain extends JFrame {        //BalduringGateMain window inherits JFrame's properties
 
     private Character player;                          // variable player can hold any character (Private so only code inside class can interact with it)
     private JLabel staminaLabel, manaLabel, qiLabel;   // updated live
