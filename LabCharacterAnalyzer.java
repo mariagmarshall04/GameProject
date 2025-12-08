@@ -33,6 +33,7 @@ class Monk extends Character {
             qi -= 3; stamina -= 5;
             BalduringGateMain.staticLogArea.append("The Monk strikes with the palm of his hand!\n");  // \n creates a new line
                     //.append is the logArea version of .println  also goes to bottom of log area
+                    //.static so the code is one of one and accessible by all code
     }
     @Override
         public void specialAbility() {
