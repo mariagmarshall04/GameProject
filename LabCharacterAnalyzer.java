@@ -108,7 +108,7 @@ public class BalduringGateMain extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
 
         JButton monkBtn = new JButton("Monk");
-        monkBtn.setFont(new Font("Impact", Font.BOLD, 20));
+        monkBtn.setFont(new Font("Impact", Font.BOLD, 20));  //formatting for button
         JButton huntBtn = new JButton("Hunter");
         huntBtn.setFont(new Font("Forte", Font.BOLD, 20));
         JButton necroBtn = new JButton("Necromancer");
