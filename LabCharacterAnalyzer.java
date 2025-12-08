@@ -150,21 +150,21 @@ public class BalduringGateMain extends JFrame {
         JPanel statsPanel = new JPanel(new GridLayout(3, 1, 10, 20));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  //emptyborder creates a buffer zone between objects
 
-        staminaLabel = new JLabel("Stamina: "+ player.stamina);
+        staminaLabel = new JLabel("Stamina: "+ player.stamina);   //153-155 auto updates stats in GUI due to these
         manaLabel = new JLabel("Mana: "+ player.mana);
         qiLabel = new JLabel("Qi: "+ player.qi);
 
         statsPanel.add(staminaLabel);
         statsPanel.add(manaLabel);
         statsPanel.add(qiLabel);
-        mainPanel.add(statsPanel, BorderLayout.WEST);
+       mainPanel.add(statsPanel, BorderLayout.WEST);  //these components show up the LEFT  side of panel
 
         // Combat log
         logArea = new JTextArea(20, 40);
         staticLogArea = logArea;  //gives all classes access to area
         logArea.setEditable(false);
         logArea.setFont(new Font("Times New Roman", Font.BOLD, 14));
-        mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);  //makes the log area real
+        mainPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);  //Log area is where messages will be displayed. This puts it in the center and allows for scrolling vert/horz
 
         // Action buttons
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 20));
@@ -184,14 +184,14 @@ public class BalduringGateMain extends JFrame {
         });
         saveExitBtn.addActionListener(e -> {
             saveToFile();
-            fightFrame.dispose();            //closes fight screen
+            fightFrame.dispose();  //closes fight screen
         });
 
         buttonPanel.add(attackBtn);
         buttonPanel.add(specialBtn);
         buttonPanel.add(saveExitBtn);
 
-        mainPanel.add(buttonPanel, BorderLayout.EAST);
+       mainPanel.add(buttonPanel, BorderLayout.EAST);   //these components show up on the RIGHT side of panel
 
         fightFrame.add(mainPanel);
         fightFrame.setVisible(true);
@@ -206,7 +206,7 @@ public class BalduringGateMain extends JFrame {
         qiLabel.setText("Qi: "+ player.qi);
     }
 
-    private void log(String s) {                   //helper code that adds \n to >log whenver called. Adds lines to bottom (append)of log area
+    private void log(String s) {            //helper code that adds \n to >log whenver called. Adds lines to bottom (append)of log area
         logArea.append(s + "\n");
     }
 
@@ -221,6 +221,6 @@ public class BalduringGateMain extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(BalduringGateMain::new);
+        SwingUtilities.invokeLater(BalduringGateMain::new);        //this code is what starts the GUI
     }
 }
